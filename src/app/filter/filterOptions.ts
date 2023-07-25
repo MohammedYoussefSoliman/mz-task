@@ -1,4 +1,4 @@
-import { AsyncOptionType } from "@components/Selects/SelectInputs.types";
+import { AsyncOptionType } from "@components/Inputs/Inputs.types";
 
 const filterOptions = (inputValue: string, options: AsyncOptionType[]) => {
   return options.filter((i) =>

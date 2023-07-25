@@ -2,7 +2,7 @@ import React from "react";
 import { Controller, FieldValues, Path } from "react-hook-form";
 import _ from "lodash";
 import { SingleValue } from "react-select";
-import { ControllerType, SelectProps } from "../SelectInputs.types";
+import { ControllerType, SelectProps } from "@components/Inputs/Inputs.types";
 
 type WithControllerProps<T extends FieldValues> = ControllerType<T> &
   SelectProps;

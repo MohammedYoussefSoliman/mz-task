@@ -1,3 +1,5 @@
+import { Control, UseFormWatch } from "react-hook-form";
+
 export type CategoryChild = {
   id: number;
   name: string;
@@ -31,4 +33,16 @@ export type Property = {
   value: string;
   other_value: string | null;
   options: PropertyOption[];
+};
+
+export type PropertiesProps = {
+  properties: Property[];
+  control: Control<any>;
+  watch: UseFormWatch<any>;
+};
+
+export type PropertyProps = {
+  property: Property;
+  control: Control<any>;
+  watch: UseFormWatch<any>;
 };

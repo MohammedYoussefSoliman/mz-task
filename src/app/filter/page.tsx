@@ -2,16 +2,18 @@
 import React from "react";
 import service from "@services/instance";
 import Form from "@components/Form";
-import { AsyncOptionType } from "@components/Selects/SelectInputs.types";
-import Label from "@components/Selects/Label";
-import { AsyncSelect, Select } from "@components/Selects";
+import { AsyncOptionType } from "@components/Inputs/Inputs.types";
+import Label from "@/components/Inputs/Label/Label";
+import { AsyncSelect, Select } from "@components/Inputs";
 import filterOptions from "./filterOptions";
 import { Category, Property } from "./filter.types";
+import Properties from "./components/Properties";
 
 export default function Filter() {
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [category, setCategory] = React.useState<Category | null>(null);
-  const [properties, setProperties] = React.useState<Property[]>([]);
+  const [properties, setProperties] = React.useState<Property[] | null>(null);
+  const subCatSelectRef = React.useRef();
 
   const getCategories = React.useCallback(
     async (
@@ -26,7 +28,7 @@ export default function Filter() {
       ).map((option) => ({
         label: <Label label={option.name} />,
         stringLabel: option.name,
-        value: option.id,
+        value: option.name,
       }));
 
       callback(filterOptions(inputValue, options));
@@ -50,15 +52,11 @@ export default function Filter() {
       <div className="container mx-auto">
         <div className="w-full bg-sky-100 p-4 rounded-md">
           <Form
-            onSubmit={(data: {
-              cat: string | number;
-              sub_cat: string | number;
-              [key: string]: string | number;
-            }) => {
+            onSubmit={(data) => {
               console.log(data);
             }}
           >
-            {({ control }) => (
+            {({ control, watch, setValue }) => (
               <div className="flex flex-col gap-2">
                 <div className="flex gap-4">
                   <div className="flex-1">
@@ -69,9 +67,13 @@ export default function Filter() {
                       placeholder="Select category"
                       control={control}
                       loadOptions={getCategories}
-                      changeHandler={(value) =>
-                        setCategory(categories.find((opt) => opt.id === value)!)
-                      }
+                      changeHandler={(value) => {
+                        setCategory(
+                          categories.find((opt) => opt.name === value)!
+                        );
+                        setValue("sub_cat", null);
+                        setProperties(null);
+                      }}
                       validationRules={{ required: "this field is required" }}
                     />
                   </div>
@@ -86,37 +88,27 @@ export default function Filter() {
                       options={
                         category?.children.map((option) => ({
                           label: option.name,
-                          value: option.id,
+                          value: option.name,
                         })) || []
                       }
                       changeHandler={(value) => {
-                        getProperties(value);
+                        const property = category?.children.find(
+                          (item) => item.name === value
+                        );
+                        if (property) {
+                          getProperties(property.id);
+                        }
                       }}
                       validationRules={{ required: "this field is required" }}
                     />
                   </div>
                 </div>
                 {properties && properties.length > 0 && (
-                  <>
-                    <h3 className="font-md mt-4">Properties:</h3>
-                    <div className="grid grid-cols-3 gap-4">
-                      {properties.map((property) => (
-                        <Select
-                          key={property.slug}
-                          name={property.slug}
-                          label={property.name}
-                          placeholder={`Select ${property.name}`}
-                          control={control}
-                          options={
-                            property.options.map((option) => ({
-                              label: option.name,
-                              value: option.id,
-                            })) || []
-                          }
-                        />
-                      ))}
-                    </div>
-                  </>
+                  <Properties
+                    properties={properties}
+                    control={control}
+                    watch={watch}
+                  />
                 )}
                 <button>submit</button>
               </div>

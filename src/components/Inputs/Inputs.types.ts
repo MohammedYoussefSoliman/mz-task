@@ -74,3 +74,13 @@ export type ControllerType<T extends FieldValues> = {
   control: Control<T, any>;
   validationRules?: Partial<FormValidationRules>;
 };
+
+export interface InputPropsType
+  extends Omit<React.InputHTMLAttributes<any>, "required"> {
+  name: string;
+  label?: string;
+  error?: string;
+  className?: string;
+  required?: true | string;
+  changeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}

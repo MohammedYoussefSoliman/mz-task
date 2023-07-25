@@ -1,5 +1,5 @@
 import React from "react";
-import { ErrorProps } from "./SelectInputs.types";
+import { ErrorProps } from "../Inputs/Selects/SelectInputs.types";
 
 export default function Error({ error }: ErrorProps) {
   return (

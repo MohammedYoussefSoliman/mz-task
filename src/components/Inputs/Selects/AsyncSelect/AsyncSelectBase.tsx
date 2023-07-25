@@ -1,9 +1,9 @@
 import React from "react";
 import Async from "react-select/async";
 import { debounce } from "lodash";
-import InputError from "../Error";
-import Label from "../Label";
-import { AsyncSelectProps } from "../SelectInputs.types";
+import InputError from "@components/Inputs/Error";
+import Label from "@components/Inputs/Label";
+import { AsyncSelectProps } from "@components/Inputs/Inputs.types";
 
 export default React.memo(function AsyncSelect({
   name,

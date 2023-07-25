@@ -3,7 +3,10 @@ import { FieldValues } from "react-hook-form";
 import _ from "lodash";
 import AsyncSelect from "./AsyncSelectBase";
 import withHookFormController from "./withHookFormController";
-import { ControllerType, AsyncSelectProps } from "../SelectInputs.types";
+import {
+  ControllerType,
+  AsyncSelectProps,
+} from "@components/Inputs/Inputs.types";
 
 type WithControllerProps<T extends FieldValues> = ControllerType<T> &
   AsyncSelectProps;

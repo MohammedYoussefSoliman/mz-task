@@ -3,7 +3,7 @@ import { FieldValues } from "react-hook-form";
 import _ from "lodash";
 import SelectBase from "./SelectBase";
 import withHookFormController from "./withHookFormController";
-import { ControllerType, SelectProps } from "../SelectInputs.types";
+import { ControllerType, SelectProps } from "@components/Inputs/Inputs.types";
 
 type WithControllerProps<T extends FieldValues> = ControllerType<T> &
   SelectProps;
