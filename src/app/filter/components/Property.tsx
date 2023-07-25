@@ -48,12 +48,12 @@ export default function Property({ property, control, watch }: PropertyProps) {
       </div>
       {subProperties &&
         subProperties.map((sub) => {
-          const subPropertyValue = watch(sub.slug);
+          const subPropertyValue = watch(`${property.slug}-${sub.slug}`);
           return (
             <>
               <Select
                 key={sub.slug}
-                name={sub.slug}
+                name={`${property.slug}-${sub.slug}`}
                 label={sub.name}
                 placeholder={`Select ${sub.name}`}
                 control={control}
@@ -70,7 +70,7 @@ export default function Property({ property, control, watch }: PropertyProps) {
               {subPropertyValue === "other" && (
                 <TextInput
                   label="other option"
-                  name={`${sub.slug}_other`}
+                  name={`${sub.slug}_${property.name}_other`}
                   control={control}
                 />
               )}

@@ -1,5 +1,5 @@
 import React from "react";
-import { LabelProps } from "../Inputs/Selects/SelectInputs.types";
+import { LabelProps } from "@components/Inputs/Inputs.types";
 
 export default function Label({ label, required }: LabelProps) {
   return (

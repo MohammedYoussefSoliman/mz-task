@@ -46,3 +46,8 @@ export type PropertyProps = {
   control: Control<any>;
   watch: UseFormWatch<any>;
 };
+
+export type InfoItemProps = {
+  title: string;
+  content: string;
+};

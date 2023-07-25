@@ -8,12 +8,15 @@ import { AsyncSelect, Select } from "@components/Inputs";
 import filterOptions from "./filterOptions";
 import { Category, Property } from "./filter.types";
 import Properties from "./components/Properties";
+import InfoItem from "./components/InfoItem";
 
 export default function Filter() {
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [category, setCategory] = React.useState<Category | null>(null);
+  const [loadingProperties, setLoadingProperties] =
+    React.useState<boolean>(false);
   const [properties, setProperties] = React.useState<Property[] | null>(null);
-  const subCatSelectRef = React.useRef();
+  const [data, setData] = React.useState<any>();
 
   const getCategories = React.useCallback(
     async (
@@ -39,21 +42,34 @@ export default function Filter() {
   );
 
   const getProperties = React.useCallback(async (cat: number) => {
+    setLoadingProperties(true);
     const response = await service.get("/properties", {
       params: {
         cat,
       },
     });
     setProperties(response.data.data);
+    setLoadingProperties(false);
   }, []);
 
   return (
     <main className="flex flex-1 flex-col w-full">
       <div className="container mx-auto">
-        <div className="w-full bg-sky-100 p-4 rounded-md">
+        <div className="w-full flex flex-col gap-4 bg-sky-100 p-4 rounded-md">
           <Form
             onSubmit={(data) => {
-              console.log(data);
+              let readyData = {};
+              Object.keys(data).forEach((k) => {
+                if (data[k] && data[k] !== "other") {
+                  let otherObj = {};
+                  if (k.includes("other")) {
+                    k = k.replace("_other", "");
+                    otherObj = { [k]: data[`${k}_other`] };
+                  }
+                  readyData = { ...readyData, [k]: data[k], ...otherObj };
+                }
+              });
+              setData(readyData);
             }}
           >
             {({ control, watch, setValue }) => (
@@ -62,7 +78,7 @@ export default function Filter() {
                   <div className="flex-1">
                     <AsyncSelect
                       className="flex-1"
-                      name="cat"
+                      name="category"
                       label="Categories"
                       placeholder="Select category"
                       control={control}
@@ -81,7 +97,7 @@ export default function Filter() {
                     <Select
                       isDisabled={!category?.children.length}
                       isSearchable
-                      name="sub_cat"
+                      name="sub_category"
                       label="Sub categories"
                       placeholder="Select sub category"
                       control={control}
@@ -103,17 +119,32 @@ export default function Filter() {
                     />
                   </div>
                 </div>
-                {properties && properties.length > 0 && (
+                {loadingProperties && <div>Loading properties...</div>}
+                {!loadingProperties && properties && properties.length > 0 && (
                   <Properties
                     properties={properties}
                     control={control}
                     watch={watch}
                   />
                 )}
-                <button>submit</button>
+                <div className="place-self-center mt-4">
+                  <button className="rounded bg-blue-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                    submit
+                  </button>
+                </div>
               </div>
             )}
           </Form>
+          {data && (
+            <>
+              <h3 className="font-lg first-letter:uppercase">you selected:</h3>
+              <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {Object.keys(data).map((k) => (
+                  <InfoItem key={k} title={k} content={data[k]} />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </main>
