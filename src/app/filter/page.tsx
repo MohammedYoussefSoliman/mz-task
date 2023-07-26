@@ -4,6 +4,8 @@ import service from "@services/instance";
 import Form from "@components/Form";
 import { AsyncOptionType } from "@components/Inputs/Inputs.types";
 import Label from "@/components/Inputs/Label/Label";
+import Container from "@components/Container";
+
 import { AsyncSelect, Select } from "@components/Inputs";
 import filterOptions from "./filterOptions";
 import { Category, Property } from "./filter.types";
@@ -16,7 +18,7 @@ export default function Filter() {
   const [loadingProperties, setLoadingProperties] =
     React.useState<boolean>(false);
   const [properties, setProperties] = React.useState<Property[] | null>(null);
-  const [data, setData] = React.useState<any>();
+  const [data, setData] = React.useState<any>(null);
 
   const getCategories = React.useCallback(
     async (
@@ -54,7 +56,7 @@ export default function Filter() {
 
   return (
     <main className="flex flex-1 flex-col w-full">
-      <div className="container mx-auto">
+      <Container>
         <div className="w-full flex flex-col gap-4 bg-sky-100 p-4 rounded-md">
           <Form
             onSubmit={(data) => {
@@ -89,6 +91,7 @@ export default function Filter() {
                         );
                         setValue("sub_cat", null);
                         setProperties(null);
+                        setData(null);
                       }}
                       validationRules={{ required: "this field is required" }}
                     />
@@ -114,6 +117,7 @@ export default function Filter() {
                         if (property) {
                           getProperties(property.id);
                         }
+                        setData(null);
                       }}
                       validationRules={{ required: "this field is required" }}
                     />
@@ -146,7 +150,7 @@ export default function Filter() {
             </>
           )}
         </div>
-      </div>
+      </Container>
     </main>
   );
 }

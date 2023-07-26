@@ -1,6 +1,8 @@
+import "@smastrom/react-rating/style.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { TopSearch, Navbar } from "@components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,12 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <body className={inter.className}>
         <main className="flex min-h-screen flex-col items-center justify-between">
-          <nav className="h-10">navbar</nav>
+          <TopSearch />
+          <Navbar />
           {children}
-          <footer className="h-10">footer</footer>
         </main>
       </body>
     </html>
