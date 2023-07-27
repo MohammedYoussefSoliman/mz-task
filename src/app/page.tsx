@@ -3,6 +3,7 @@ import Container from "@components/Container";
 import Paper from "@components/Paper";
 import Slider from "@components/Slider";
 import Post from "@components/Post";
+import InfoColumn from "@components/InfoColumn";
 
 export default function Home() {
   return (
@@ -20,7 +21,9 @@ export default function Home() {
           <div className="col-span-5">
             <Post />
           </div>
-          <Paper className="col-span-3">02</Paper>
+          <div className="col-span-3">
+            <InfoColumn />
+          </div>
         </div>
       </Container>
     </main>

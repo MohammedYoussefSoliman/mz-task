@@ -5,7 +5,7 @@ import SocialLinks from "@components/SocialLinks";
 
 export default function Navbar() {
   return (
-    <nav className="bg-gradient-to-l from-rose-900 to-rose-500 w-full h-20 flex  items-center">
+    <nav className="bg-gradient-to-l from-rose-900 to-rose-500 w-full h-20 flex sticky top-0 z-30 items-center">
       <Container>
         <div className="flex justify-between items-center">
           <NavList
