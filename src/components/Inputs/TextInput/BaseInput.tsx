@@ -6,7 +6,6 @@ import { InputPropsType } from "@components/Inputs/Inputs.types";
 export default function BaseInput({
   name,
   label,
-  placeholder,
   className,
   required,
   error,
@@ -14,11 +13,11 @@ export default function BaseInput({
 }: InputPropsType) {
   return (
     <div
-      className={`flex  gap-2 p-1 h-10 w-full border-cyan-600 rounded-sm ${className}`}
+      className={`flex  gap-2 h-10 w-full border-cyan-600 rounded ${className}`}
     >
       {label && <Label label={label} required={required} />}
       <input
-        className="flex-1 outline-none p-2 border rounded-sm"
+        className={`flex-1 outline-none px-4 py-2 border rounded bg-transparent`}
         type="text"
         {...inputProps}
       />

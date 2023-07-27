@@ -6,6 +6,7 @@ export default function Button({
   onClick,
   variant,
   rounded,
+  className,
   ...rest
 }: ButtonProps) {
   const variantClasses =
@@ -16,7 +17,7 @@ export default function Button({
   const roundedClasses = rounded ? "rounded-full" : "rounded";
   return (
     <button
-      className={`${roundedClasses} p-2 h-10 flex items-center text-xs font-medium uppercase leading-normal bg-gradient-to-tr ${variantClasses}`}
+      className={`${roundedClasses} p-2 h-10 flex items-center text-xs font-medium uppercase leading-normal bg-gradient-to-tr ${variantClasses} ${className}`}
       onClick={onClick}
       {...rest}
     >
