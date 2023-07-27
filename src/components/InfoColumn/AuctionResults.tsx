@@ -15,7 +15,6 @@ export default function AuctionResults() {
               src="/images/person.jpg"
               width={14}
               height={14}
-              objectFit="cover"
               alt="winner"
             />
           </div>
