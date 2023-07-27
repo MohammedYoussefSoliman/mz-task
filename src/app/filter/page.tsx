@@ -33,7 +33,7 @@ export default function Filter() {
       ).map((option) => ({
         label: <Label label={option.name} />,
         stringLabel: option.name,
-        value: option.name,
+        value: option.id,
       }));
 
       callback(filterOptions(inputValue, options));
@@ -57,7 +57,7 @@ export default function Filter() {
   return (
     <main className="flex flex-1 flex-col w-full">
       <Container>
-        <div className="w-full flex flex-col gap-4 bg-sky-100 p-4 rounded-md">
+        <div className="w-full flex flex-col gap-4 bg-sky-100 p-4 rounded-md mt-8">
           <Form
             onSubmit={(data) => {
               let readyData = {};
@@ -68,7 +68,7 @@ export default function Filter() {
                     k = k.replace("_other", "");
                     otherObj = { [k]: data[`${k}_other`] };
                   }
-                  readyData = { ...readyData, [k]: data[k], ...otherObj };
+                  readyData = { ...readyData, [k]: data[k].label, ...otherObj };
                 }
               });
               setData(readyData);
@@ -87,7 +87,7 @@ export default function Filter() {
                       loadOptions={getCategories}
                       changeHandler={(value) => {
                         setCategory(
-                          categories.find((opt) => opt.name === value)!
+                          categories.find((opt) => opt.id === value.value)!
                         );
                         setValue("sub_cat", null);
                         setProperties(null);
@@ -107,16 +107,11 @@ export default function Filter() {
                       options={
                         category?.children.map((option) => ({
                           label: option.name,
-                          value: option.name,
+                          value: option.id,
                         })) || []
                       }
-                      changeHandler={(value) => {
-                        const property = category?.children.find(
-                          (item) => item.name === value
-                        );
-                        if (property) {
-                          getProperties(property.id);
-                        }
+                      changeHandler={({ value }) => {
+                        getProperties(value);
                         setData(null);
                       }}
                       validationRules={{ required: "this field is required" }}

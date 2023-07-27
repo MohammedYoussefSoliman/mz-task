@@ -42,8 +42,8 @@ export default function withHookFormController<
                     rest.changeHandler(val.map((c) => c.value));
                 } else {
                   const value = val as SingleValue<any>;
-                  fields.onChange(value.value);
-                  if (rest.changeHandler) rest.changeHandler(value.value);
+                  fields.onChange(value);
+                  if (rest.changeHandler) rest.changeHandler(value);
                 }
               }
             }}
